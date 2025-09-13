@@ -3,27 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TS TRADER</title>
+<title>TS TRADER - Home</title>
 <style>
-body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; scroll-behavior:smooth;}
-canvas#chartBG { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; }
-body::after { content:"TS TRADER"; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:5em; color: rgba(255,255,255,0.05); z-index:0; pointer-events:none; letter-spacing:10px;}
-header { position:fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; background-color: rgba(0,0,0,0.5); padding: 15px 30px; z-index:2; box-shadow:0 2px 8px rgba(0,0,0,0.5);}
-header h1 { margin:0; font-size:2em; color:#f1c40f; text-shadow: 1px 1px 5px #000;}
-nav a { margin-left:20px; color:#f1c40f; text-decoration:none; font-weight:bold; transition:0.3s;}
-nav a:hover { color:#1abc9c; text-shadow: 0 0 10px #1abc9c;}
-section { padding:120px 30px 80px; min-height:100vh; position:relative; z-index:1;}
-h2 { text-align:center; color:#f39c12; text-shadow: 0 0 5px #000;}
-.upload-section { background-color: rgba(0,0,0,0.7); padding: 40px; border-radius:15px; text-align:center; border:2px dashed #f39c12; margin:50px auto; max-width:600px;}
-.upload-section.dragover { background-color: rgba(0,0,0,0.85); border-color:#1abc9c;}
-.gallery { display:flex; flex-wrap:wrap; justify-content:center; margin-top:20px; }
-.gallery img { width:200px; margin:10px; border-radius:10px; border:2px solid #f39c12; cursor:pointer; transition:0.3s;}
-.gallery img:hover { transform:scale(1.05); border-color:#1abc9c;}
-#lightbox { display:none; position:fixed; z-index:10; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content:center; align-items:center; }
-#lightbox img { max-width:90%; max-height:90%; border:5px solid #1abc9c; border-radius:10px; }
-.about-links { background: rgba(0,0,0,0.7); padding:30px; border-radius:15px; text-align:center; max-width:600px; margin:50px auto;}
-.about-links a { display:block; margin:10px 0; color:#f39c12; text-decoration:none; font-size:1.2em; transition:0.3s;}
-.about-links a:hover { color:#1abc9c; text-shadow:0 0 10px #1abc9c;}
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#111;
+  color:#fff;
+  overflow-x:hidden;
+}
+canvas#chartBG {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  opacity:0.15;
+}
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background-color: rgba(0,0,0,0.85);
+  padding: 15px 30px;
+  position: sticky;
+  top:0;
+  z-index:100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+header h1 {
+  margin:0;
+  font-size:2em;
+  color:#f1c40f;
+  text-shadow: 0 0 5px #f39c12;
+}
+nav a {
+  margin-left:20px;
+  color:#f1c40f;
+  text-decoration:none;
+  font-weight:bold;
+  transition: 0.3s;
+  position: relative;
+}
+nav a::after {
+  content:'';
+  position:absolute;
+  width:0;
+  height:2px;
+  background:#1abc9c;
+  left:0;
+  bottom:-5px;
+  transition:0.3s;
+}
+nav a:hover {
+  color:#1abc9c;
+}
+nav a:hover::after {
+  width:100%;
+}
+section {
+  padding:140px 30px 80px;
+  min-height:100vh;
+  position: relative;
+  z-index:1;
+  text-align:center;
+}
 </style>
 </head>
 <body>
@@ -32,108 +77,67 @@ h2 { text-align:center; color:#f39c12; text-shadow: 0 0 5px #000;}
 <header>
 <h1>TS TRADER</h1>
 <nav>
-    <a href="#home">Home</a>
-    <a href="#upload">Upload</a>
-    <a href="#about">About</a>
+  <a href="index.html">Home</a>
+  <a href="upload.html">Upload</a>
+  <a href="about.html">About</a>
 </nav>
 </header>
 
-<!-- Home Section -->
-<section id="home">
-<h2>Welcome to TS TRADER</h2>
-<p style="text-align:center; color:#f1c40f;">Real-time Trading Charts: BTC, Gold, EUR/USD</p>
+<section>
+<h2 style="color: #f39c12;">Welcome to TS TRADER</h2>
+<p style="color: #f1c40f;">BTC Market Watermark Background</p>
 </section>
-
-<!-- Upload Section -->
-<section id="upload" class="upload-section">
-<h2>Upload Your Trading Analysis</h2>
-<input type="file" id="fileInput" accept="image/*" multiple>
-<p>Or drag & drop your images here</p>
-<div class="gallery" id="gallery"></div>
-</section>
-
-<!-- About Section -->
-<section id="about" class="about-links">
-<h2>Useful Trading Links</h2>
-<a href="https://www.tradingview.com" target="_blank">TradingView</a>
-<a href="https://www.exness.com" target="_blank">Exness</a>
-<a href="https://www.forexfactory.com" target="_blank">Forex Factory</a>
-<a href="https://www.babypips.com" target="_blank">Babypips</a>
-<a href="https://www.binance.com" target="_blank">Binance</a>
-</section>
-
-<div id="lightbox"><img src="" alt="Preview"></div>
 
 <script>
-// 3 Chart Background Animation
-const canvas=document.getElementById('chartBG');
-const ctx=canvas.getContext('2d');
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+// BTC Candlestick Watermark
+const canvas = document.getElementById('chartBG');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-const chartCount=60;
-const candlesBTC=[], candlesGold=[], candlesEUR=[];
-for(let i=0;i<chartCount;i++){
-    let x=i*(canvas.width/chartCount);
-    candlesBTC.push({x, open:Math.random()*200+200, close:Math.random()*200+200, high:Math.random()*200+300, low:Math.random()*200+100});
-    candlesGold.push({x, open:Math.random()*100+100, close:Math.random()*100+100, high:Math.random()*150+150, low:Math.random()*50+50});
-    candlesEUR.push({x, open:Math.random()*1.2+1, close:Math.random()*1.2+1, high:Math.random()*1.5+1.5, low:Math.random()*0.8+0.8});
-}
+const symbol = 'BTCUSDT';
+const interval = '1d';
+const limit = 100;
 
-function drawCandles(candles, colorUp, colorDown, yOffset){
-    candles.forEach(c=>{
-        const candleWidth = canvas.width/chartCount;
-        const color = c.close>c.open ? colorUp : colorDown;
-        ctx.strokeStyle=color;
-        ctx.shadowBlur = 5;
-        ctx.shadowColor = color;
-        ctx.beginPath();
-        ctx.moveTo(c.x+candleWidth/2, canvas.height-(c.low+yOffset));
-        ctx.lineTo(c.x+candleWidth/2, canvas.height-(c.high+yOffset));
-        ctx.stroke();
-        ctx.fillStyle=color;
-        const bodyHeight=Math.abs(c.close-c.open);
-        ctx.fillRect(c.x, canvas.height-Math.max(c.open,c.close)-yOffset, candleWidth, bodyHeight);
-        // Animate a little
-        c.open += (Math.random()-0.5)*2;
-        c.close += (Math.random()-0.5)*2;
-        c.high += (Math.random()-0.5)*2;
-        c.low += (Math.random()-0.5)*2;
+fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`)
+.then(response => response.json())
+.then(data => {
+  const candles = data.map(kline => ({
+    open: parseFloat(kline[1]),
+    high: parseFloat(kline[2]),
+    low: parseFloat(kline[3]),
+    close: parseFloat(kline[4]),
+  }));
+
+  function drawCandles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const candleWidth = canvas.width / candles.length;
+    candles.forEach((candle, index) => {
+      const x = index * candleWidth;
+      const yOpen = canvas.height - (candle.open / 1000);
+      const yClose = canvas.height - (candle.close / 1000);
+      const yHigh = canvas.height - (candle.high / 1000);
+      const yLow = canvas.height - (candle.low / 1000);
+
+      const color = candle.close > candle.open ? '#00ff00' : '#ff0000';
+      ctx.fillStyle = color;
+      ctx.fillRect(x, yClose, candleWidth, yOpen - yClose);
+      ctx.beginPath();
+      ctx.moveTo(x + candleWidth / 2, yHigh);
+      ctx.lineTo(x + candleWidth / 2, yLow);
+      ctx.strokeStyle = color;
+      ctx.stroke();
     });
-}
+    requestAnimationFrame(drawCandles);
+  }
+  drawCandles();
+})
+.catch(error => console.error('Error fetching data:', error));
 
-function drawAllCharts(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawCandles(candlesBTC,'#f7931a','#ff6f00',0);
-    drawCandles(candlesGold,'#ffd700','#ffb700',150);
-    drawCandles(candlesEUR,'#1a75ff','#0040ff',300);
-    requestAnimationFrame(drawAllCharts);
-}
-drawAllCharts();
-window.addEventListener('resize',()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
-
-// Upload Gallery Script
-const fileInput=document.getElementById('fileInput');
-const gallery=document.getElementById('gallery');
-const uploadSection=document.getElementById('upload');
-const lightbox=document.getElementById('lightbox');
-const lightboxImg=lightbox.querySelector('img');
-
-function addImage(file){
-    const reader=new FileReader();
-    reader.onload=function(e){
-        const img=document.createElement('img');
-        img.src=e.target.result;
-        gallery.appendChild(img);
-        img.addEventListener('click',()=>{ lightbox.style.display='flex'; lightboxImg.src=img.src; });
-    }
-    reader.readAsDataURL(file);
-}
-fileInput.addEventListener('change',(e)=>{ for(let i=0;i<e.target.files.length;i++) addImage(e.target.files[i]); });
-uploadSection.addEventListener('dragover',e=>{ e.preventDefault(); uploadSection.classList.add('dragover'); });
-uploadSection.addEventListener('dragleave',e=>{ e.preventDefault(); uploadSection.classList.remove('dragover'); });
-uploadSection.addEventListener('drop',e=>{ e.preventDefault(); uploadSection.classList.remove('dragover'); for(let i=0;i<e.dataTransfer.files.length;i++) addImage(e.dataTransfer.files[i]); });
-lightbox.addEventListener('click',()=>{ lightbox.style.display='none'; });
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
 </script>
 </body>
     </html>
