@@ -5,61 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TS TRADER</title>
 <style>
-body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    overflow-x:hidden;
-    background:#111;
-    position:relative;
-    color:#fff;
-}
-canvas#chartBG {
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    z-index:0;
-}
-body::after {
-    content:"TS TRADER";
-    position:fixed;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%);
-    font-size:5em;
-    color: rgba(255,255,255,0.1);
-    z-index:0;
-    pointer-events:none;
-    white-space: nowrap;
-}
-header { 
-    display:flex; 
-    justify-content:space-between; 
-    align-items:center; 
-    background-color: rgba(0,0,0,0.6); 
-    padding: 15px 30px; 
-    position: relative; 
-    z-index:1; 
-}
-header h1 { margin:0; font-size:2em; color:#f1c40f; }
-
-.menu, .about-menu { position:relative; cursor:pointer; margin-left:20px; }
-.dot { width:8px; height:8px; background-color:#fff; border-radius:50%; margin:3px 0; }
-.dropdown, .about-dropdown { display:none; position:absolute; right:0; background: rgba(0,0,0,0.8); padding:10px 15px; border-radius:10px; text-align:left; min-width:200px; }
-.dropdown p, .about-dropdown p { margin:5px 0; color:#f1c40f; font-weight:bold; }
-.dropdown a, .about-dropdown a { color:#f39c12; text-decoration:none; }
-.menu:hover .dropdown, .about-menu:hover .about-dropdown { display:block; }
-
-.upload-section { background-color: rgba(0,0,0,0.6); padding: 40px; margin: 50px auto; width: 90%; max-width: 600px; border-radius: 15px; text-align:center; position: relative; z-index:1; border: 2px dashed #f39c12; transition: background 0.3s; }
-.upload-section.dragover { background-color: rgba(0,0,0,0.8); }
-.upload-section input[type="file"] { margin: 20px 0; }
-
-.gallery { display:flex; flex-wrap:wrap; justify-content:center; margin-top:20px; position:relative; z-index:1; }
-.gallery img { width:200px; margin:10px; border-radius:10px; border:2px solid #f39c12; cursor:pointer; position:relative; }
-.watermark { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2em; color: rgba(255,255,255,0.3); pointer-events:none; }
-
-footer { text-align:center; padding:20px; background-color: rgba(0,0,0,0.7); position:relative; z-index:1; }
-
+body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff; scroll-behavior:smooth;}
+canvas#chartBG { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; }
+body::after { content:"TS TRADER"; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-size:5em; color: rgba(255,255,255,0.05); z-index:0; pointer-events:none; letter-spacing:10px;}
+header { position:fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; background-color: rgba(0,0,0,0.5); padding: 15px 30px; z-index:2; box-shadow:0 2px 8px rgba(0,0,0,0.5);}
+header h1 { margin:0; font-size:2em; color:#f1c40f; text-shadow: 1px 1px 5px #000;}
+nav a { margin-left:20px; color:#f1c40f; text-decoration:none; font-weight:bold; transition:0.3s;}
+nav a:hover { color:#1abc9c; text-shadow: 0 0 10px #1abc9c;}
+section { padding:120px 30px 80px; min-height:100vh; position:relative; z-index:1;}
+h2 { text-align:center; color:#f39c12; text-shadow: 0 0 5px #000;}
+.upload-section { background-color: rgba(0,0,0,0.7); padding: 40px; border-radius:15px; text-align:center; border:2px dashed #f39c12; margin:50px auto; max-width:600px;}
+.upload-section.dragover { background-color: rgba(0,0,0,0.85); border-color:#1abc9c;}
+.gallery { display:flex; flex-wrap:wrap; justify-content:center; margin-top:20px; }
+.gallery img { width:200px; margin:10px; border-radius:10px; border:2px solid #f39c12; cursor:pointer; transition:0.3s;}
+.gallery img:hover { transform:scale(1.05); border-color:#1abc9c;}
 #lightbox { display:none; position:fixed; z-index:10; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); justify-content:center; align-items:center; }
-#lightbox img { max-width:90%; max-height:90%; border:5px solid #f39c12; border-radius:10px; }
+#lightbox img { max-width:90%; max-height:90%; border:5px solid #1abc9c; border-radius:10px; }
+.about-links { background: rgba(0,0,0,0.7); padding:30px; border-radius:15px; text-align:center; max-width:600px; margin:50px auto;}
+.about-links a { display:block; margin:10px 0; color:#f39c12; text-decoration:none; font-size:1.2em; transition:0.3s;}
+.about-links a:hover { color:#1abc9c; text-shadow:0 0 10px #1abc9c;}
 </style>
 </head>
 <body>
@@ -67,114 +31,109 @@ footer { text-align:center; padding:20px; background-color: rgba(0,0,0,0.7); pos
 
 <header>
 <h1>TS TRADER</h1>
-
-<div style="display:flex; align-items:center;">
-    <div class="menu">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dropdown">
-            <p>Trader Tanvir</p>
-            <p>Trader Sabbir</p>
-            <p>Master of Forex, Crypto, Stock</p>
-        </div>
-    </div>
-    <div class="about-menu">
-        <span style="color:#f1c40f; font-weight:bold;">About</span>
-        <div class="about-dropdown">
-            <p><a href="https://www.tradingview.com" target="_blank">TradingView</a></p>
-            <p><a href="https://www.exness.com" target="_blank">Exness</a></p>
-            <p><a href="https://www.forexfactory.com" target="_blank">Forex Factory</a></p>
-            <p><a href="https://www.babypips.com" target="_blank">Babypips</a></p>
-            <p><a href="https://www.binance.com" target="_blank">Binance</a></p>
-        </div>
-    </div>
-</div>
+<nav>
+    <a href="#home">Home</a>
+    <a href="#upload">Upload</a>
+    <a href="#about">About</a>
+</nav>
 </header>
 
-<section class="upload-section" id="uploadSection">
+<!-- Home Section -->
+<section id="home">
+<h2>Welcome to TS TRADER</h2>
+<p style="text-align:center; color:#f1c40f;">Real-time Trading Charts: BTC, Gold, EUR/USD</p>
+</section>
+
+<!-- Upload Section -->
+<section id="upload" class="upload-section">
 <h2>Upload Your Trading Analysis</h2>
 <input type="file" id="fileInput" accept="image/*" multiple>
 <p>Or drag & drop your images here</p>
 <div class="gallery" id="gallery"></div>
 </section>
 
-<footer>&copy; 2025 TS TRADER</footer>
+<!-- About Section -->
+<section id="about" class="about-links">
+<h2>Useful Trading Links</h2>
+<a href="https://www.tradingview.com" target="_blank">TradingView</a>
+<a href="https://www.exness.com" target="_blank">Exness</a>
+<a href="https://www.forexfactory.com" target="_blank">Forex Factory</a>
+<a href="https://www.babypips.com" target="_blank">Babypips</a>
+<a href="https://www.binance.com" target="_blank">Binance</a>
+</section>
 
 <div id="lightbox"><img src="" alt="Preview"></div>
 
 <script>
-/* Drag & drop + gallery */
-const fileInput=document.getElementById('fileInput');
-const gallery=document.getElementById('gallery');
-const uploadSection=document.getElementById('uploadSection');
-const lightbox=document.getElementById('lightbox');
-const lightboxImg=lightbox.querySelector('img');
-
-function addImage(file){
-    const reader=new FileReader();
-    reader.onload=function(e){
-        const imgContainer=document.createElement('div');
-        imgContainer.style.position="relative";
-        const img=document.createElement('img');
-        img.src=e.target.result;
-        const watermark=document.createElement('div');
-        watermark.className='watermark';
-        watermark.innerText="TS TRADER";
-        imgContainer.appendChild(img);
-        imgContainer.appendChild(watermark);
-        gallery.appendChild(imgContainer);
-        img.addEventListener('click',()=>{ lightbox.style.display='flex'; lightboxImg.src=img.src; });
-    }
-    reader.readAsDataURL(file);
-}
-
-fileInput.addEventListener('change',(e)=>{
-    for(let i=0;i<e.target.files.length;i++) addImage(e.target.files[i]);
-});
-uploadSection.addEventListener('dragover',e=>{ e.preventDefault(); uploadSection.classList.add('dragover'); });
-uploadSection.addEventListener('dragleave',e=>{ e.preventDefault(); uploadSection.classList.remove('dragover'); });
-uploadSection.addEventListener('drop',e=>{ e.preventDefault(); uploadSection.classList.remove('dragover'); for(let i=0;i<e.dataTransfer.files.length;i++) addImage(e.dataTransfer.files[i]); });
-lightbox.addEventListener('click',()=>{ lightbox.style.display='none'; });
-
-/* Candle chart background animation */
+// 3 Chart Background Animation
 const canvas=document.getElementById('chartBG');
 const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
-const candles=[];
-for(let i=0;i<60;i++){
-    const x=i*(canvas.width/60);
-    candles.push({x:x, open:Math.random()*200+200, close:Math.random()*200+200, high:Math.random()*200+300, low:Math.random()*200+100, color:''});
+const chartCount=60;
+const candlesBTC=[], candlesGold=[], candlesEUR=[];
+for(let i=0;i<chartCount;i++){
+    let x=i*(canvas.width/chartCount);
+    candlesBTC.push({x, open:Math.random()*200+200, close:Math.random()*200+200, high:Math.random()*200+300, low:Math.random()*200+100});
+    candlesGold.push({x, open:Math.random()*100+100, close:Math.random()*100+100, high:Math.random()*150+150, low:Math.random()*50+50});
+    candlesEUR.push({x, open:Math.random()*1.2+1, close:Math.random()*1.2+1, high:Math.random()*1.5+1.5, low:Math.random()*0.8+0.8});
 }
 
-function drawCandles(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+function drawCandles(candles, colorUp, colorDown, yOffset){
     candles.forEach(c=>{
-        c.color = c.close>c.open ? 'lime' : 'red';
-        const candleWidth=canvas.width/70;
-        ctx.strokeStyle=c.color;
-        // wick
+        const candleWidth = canvas.width/chartCount;
+        const color = c.close>c.open ? colorUp : colorDown;
+        ctx.strokeStyle=color;
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = color;
         ctx.beginPath();
-        ctx.moveTo(c.x+candleWidth/2, canvas.height-c.low);
-        ctx.lineTo(c.x+candleWidth/2, canvas.height-c.high);
+        ctx.moveTo(c.x+candleWidth/2, canvas.height-(c.low+yOffset));
+        ctx.lineTo(c.x+candleWidth/2, canvas.height-(c.high+yOffset));
         ctx.stroke();
-        // body
-        ctx.fillStyle=c.color;
+        ctx.fillStyle=color;
         const bodyHeight=Math.abs(c.close-c.open);
-        ctx.fillRect(c.x, canvas.height-Math.max(c.open,c.close), candleWidth, bodyHeight);
+        ctx.fillRect(c.x, canvas.height-Math.max(c.open,c.close)-yOffset, candleWidth, bodyHeight);
         // Animate a little
         c.open += (Math.random()-0.5)*2;
         c.close += (Math.random()-0.5)*2;
         c.high += (Math.random()-0.5)*2;
         c.low += (Math.random()-0.5)*2;
     });
-    requestAnimationFrame(drawCandles);
 }
-drawCandles();
 
+function drawAllCharts(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawCandles(candlesBTC,'#f7931a','#ff6f00',0);
+    drawCandles(candlesGold,'#ffd700','#ffb700',150);
+    drawCandles(candlesEUR,'#1a75ff','#0040ff',300);
+    requestAnimationFrame(drawAllCharts);
+}
+drawAllCharts();
 window.addEventListener('resize',()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; });
+
+// Upload Gallery Script
+const fileInput=document.getElementById('fileInput');
+const gallery=document.getElementById('gallery');
+const uploadSection=document.getElementById('upload');
+const lightbox=document.getElementById('lightbox');
+const lightboxImg=lightbox.querySelector('img');
+
+function addImage(file){
+    const reader=new FileReader();
+    reader.onload=function(e){
+        const img=document.createElement('img');
+        img.src=e.target.result;
+        gallery.appendChild(img);
+        img.addEventListener('click',()=>{ lightbox.style.display='flex'; lightboxImg.src=img.src; });
+    }
+    reader.readAsDataURL(file);
+}
+fileInput.addEventListener('change',(e)=>{ for(let i=0;i<e.target.files.length;i++) addImage(e.target.files[i]); });
+uploadSection.addEventListener('dragover',e=>{ e.preventDefault(); uploadSection.classList.add('dragover'); });
+uploadSection.addEventListener('dragleave',e=>{ e.preventDefault(); uploadSection.classList.remove('dragover'); });
+uploadSection.addEventListener('drop',e=>{ e.preventDefault(); uploadSection.classList.remove('dragover'); for(let i=0;i<e.dataTransfer.files.length;i++) addImage(e.dataTransfer.files[i]); });
+lightbox.addEventListener('click',()=>{ lightbox.style.display='none'; });
 </script>
 </body>
-</html>
+    </html>
