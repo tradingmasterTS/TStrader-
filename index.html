@@ -8,72 +8,41 @@
 body {
   margin:0;
   font-family: Arial, sans-serif;
-  background:#111;
+  background: url('https://blog.pintu.co.id/wp-content/uploads/2025/06/harga-emas-vs-btc-hari-ini.jpg') no-repeat center center fixed;
+  background-size: cover;
   color:#fff;
   overflow-x:hidden;
-}
-canvas#chartBG {
-  position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:0;
-  opacity:0.15;
 }
 header {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background-color: rgba(0,0,0,0.85);
+  background-color: rgba(0,0,0,0.7);
   padding: 15px 30px;
   position: sticky;
   top:0;
   z-index:100;
   box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
-header h1 {
-  margin:0;
-  font-size:2em;
-  color:#f1c40f;
-  text-shadow: 0 0 5px #f39c12;
-}
-nav a {
-  margin-left:20px;
-  color:#f1c40f;
-  text-decoration:none;
-  font-weight:bold;
-  transition: 0.3s;
-  position: relative;
-}
-nav a::after {
-  content:'';
-  position:absolute;
-  width:0;
-  height:2px;
-  background:#1abc9c;
-  left:0;
-  bottom:-5px;
-  transition:0.3s;
-}
-nav a:hover {
-  color:#1abc9c;
-}
-nav a:hover::after {
-  width:100%;
-}
+header h1 { margin:0; font-size:2em; color:#f1c40f; text-shadow:0 0 5px #f39c12; }
+nav a { margin-left:20px; color:#f1c40f; text-decoration:none; font-weight:bold; transition:0.3s; position: relative; }
+nav a::after { content:''; position:absolute; width:0; height:2px; background:#1abc9c; left:0; bottom:-5px; transition:0.3s; }
+nav a:hover { color:#1abc9c; }
+nav a:hover::after { width:100%; }
 section {
   padding:140px 30px 80px;
   min-height:100vh;
   position: relative;
   z-index:1;
   text-align:center;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 1000px;
 }
 </style>
 </head>
 <body>
-<canvas id="chartBG"></canvas>
-
 <header>
 <h1>TS TRADER</h1>
 <nav>
@@ -84,60 +53,9 @@ section {
 </header>
 
 <section>
-<h2 style="color: #f39c12;">Welcome to TS TRADER</h2>
-<p style="color: #f1c40f;">BTC Market Watermark Background</p>
+<h2>Welcome to TS TRADER</h2>
+<p>Learn trading in Forex, Crypto, and Stocks</p>
+<p>Stay updated with latest BTC and Gold analysis!</p>
 </section>
-
-<script>
-// BTC Candlestick Watermark
-const canvas = document.getElementById('chartBG');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const symbol = 'BTCUSDT';
-const interval = '1d';
-const limit = 100;
-
-fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`)
-.then(response => response.json())
-.then(data => {
-  const candles = data.map(kline => ({
-    open: parseFloat(kline[1]),
-    high: parseFloat(kline[2]),
-    low: parseFloat(kline[3]),
-    close: parseFloat(kline[4]),
-  }));
-
-  function drawCandles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const candleWidth = canvas.width / candles.length;
-    candles.forEach((candle, index) => {
-      const x = index * candleWidth;
-      const yOpen = canvas.height - (candle.open / 1000);
-      const yClose = canvas.height - (candle.close / 1000);
-      const yHigh = canvas.height - (candle.high / 1000);
-      const yLow = canvas.height - (candle.low / 1000);
-
-      const color = candle.close > candle.open ? '#00ff00' : '#ff0000';
-      ctx.fillStyle = color;
-      ctx.fillRect(x, yClose, candleWidth, yOpen - yClose);
-      ctx.beginPath();
-      ctx.moveTo(x + candleWidth / 2, yHigh);
-      ctx.lineTo(x + candleWidth / 2, yLow);
-      ctx.strokeStyle = color;
-      ctx.stroke();
-    });
-    requestAnimationFrame(drawCandles);
-  }
-  drawCandles();
-})
-.catch(error => console.error('Error fetching data:', error));
-
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-</script>
 </body>
-    </html>
+  </html>
